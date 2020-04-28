@@ -95,11 +95,7 @@ body {
 }
 
 .spinners li a {
-<<<<<<< HEAD
-  color: white;
-=======
   color: purple;
->>>>>>> origin/master
   margin: auto;
   text-shadow: 0 2px 0 rgb(2,2,2);
   transform: rotate(-45deg);
@@ -138,6 +134,5 @@ body {
   background: rgb(247, 202, 24);
 }
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
-
 
 
