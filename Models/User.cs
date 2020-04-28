@@ -48,7 +48,7 @@ namespace Truckette.Models
         public string Confirm { get; set; }
 
         [Display(Name = "Street Address")]
-        public string StreepAddress { get; set; }
+        public string StreetAddress { get; set; }
 
         [Display(Name= "Zip Code")]
         [DataType(DataType.PostalCode)]

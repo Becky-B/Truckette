@@ -21,9 +21,9 @@ namespace Truckette.Controllers
         }
 
         [HttpGet("registration")]
-        public ViewResult Registratio()
+        public ViewResult Registration()
         {
-            return View ();
+            return View ("Registration");
         }
 
         [HttpPost("register")]
