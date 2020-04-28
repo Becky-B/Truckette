@@ -41,9 +41,9 @@ namespace Truckette.Controllers
 
                 dbContext.Add(user);
                 dbContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
-            return View("Index");
+            return View("Registration");
         }
 
         [HttpGet("Login")]
@@ -73,7 +73,7 @@ namespace Truckette.Controllers
                     ModelState.AddModelError("LoginPassword", "Invalid Password");
                     return View("Login");
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

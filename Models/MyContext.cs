@@ -8,6 +8,6 @@ namespace Truckette.Models
     {
         public MyContext(DbContextOptions options) : base(options) { }
         public DbSet<User> Users { get; set; }
-      
+    
     }
 }
