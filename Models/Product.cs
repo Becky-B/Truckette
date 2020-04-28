@@ -16,6 +16,10 @@ namespace Truckette.Models
         public string ProductName { get; set; }
 
         [Required]
+        [Display(Name = "Categories: ")]
+        public string Category { get; set; } 
+
+        [Required]
         [Display(Name = "Image (url): ")]
         public string ImageUrl { get; set; }
 
@@ -25,7 +29,7 @@ namespace Truckette.Models
         [Required]
         public int Quantity { get; set; } = 0;
 
-        [Required]
+        // [Required]
         public string DistributionNumber { get; set; }
         //many to many
         public List<Order> Orders { get; set; }
