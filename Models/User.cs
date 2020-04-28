@@ -36,10 +36,6 @@ namespace Truckette.Models
             ErrorMessage="Password should be a min length of 8 characters, contain at least 1 number, 1 letter, 1 capital letter, and a special character.")]
         public string Password { get; set; }
 
-        public DateTime CreatedAt {get;set;} = DateTime.Now;
-
-        public DateTime UpdatedAt {get;set;} = DateTime.Now;
-
         //Confirm Password
         [Required(ErrorMessage = "**Confirm password is required**")]
         [NotMapped]
@@ -59,5 +55,12 @@ namespace Truckette.Models
 
         [DataType(DataType.DateTime)]
         public string DOB { get; set; }
+
+        // Navigation for Many to many
+        public List<Order> Orders { get; set; }
+
+        public DateTime CreatedAt {get;set;} = DateTime.Now;
+
+        public DateTime UpdatedAt {get;set;} = DateTime.Now;
     }
 }
