@@ -64,16 +64,13 @@ namespace Truckette.Controllers
         [HttpPost("editingProduct/{id}")]
         public IActionResult EditProduct(int id, Product fromForm)
         {
-            System.Console.WriteLine($"What's the Product Id? {id}");
-            System.Console.WriteLine("------------------------------------");
             if (ModelState.IsValid)
             {
                 if (dbContext.Products.Any(b => b.ProductName == fromForm.ProductName && b.ProductId != id))
                 {
-                    ModelState.AddModelError("Name", "You cannot create a burrito with the same name as an existing burrito.");
+                    ModelState.AddModelError("Name", "You cannot create a PRoduct with the same name as an existing Product.");
                     return View("EditRito", fromForm);
                 }
-                System.Console.WriteLine("======================================");
                 fromForm.ProductId = id;
                 dbContext.Update(fromForm);
                 dbContext.Entry(fromForm).Property("CreatedAt").IsModified = false;
