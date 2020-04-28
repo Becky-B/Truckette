@@ -54,12 +54,12 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
-ul {
+.spinners {
   display: flex;
   justify-content: space-around;
 }
 
-ul li {
+.spinners li {
   display: flex;
   width: 100px;
   height: 100px;
@@ -71,7 +71,7 @@ ul li {
   transition: all .5s ease-in;
 }
 
-ul li:before {
+.spinners li:before {
   content:'';
   display: block;
   width: 50%;
@@ -80,7 +80,7 @@ ul li:before {
   z-index: -2;
 }
 
-ul li:after {
+.spinners li:after {
   content:'';
   display: block;
   width: 100%;
@@ -94,43 +94,43 @@ ul li:after {
   opacity: .5;
 }
 
-ul li a {
-  color: white;
+.spinners li a {
+  color: purple;
   margin: auto;
   text-shadow: 0 2px 0 rgb(2,2,2);
   transform: rotate(-45deg);
   transition: all .5s ease-in;
 }
 
-ul li:hover {
+.spinners li:hover {
   transform: rotate(765deg);
 }
 
-ul li:hover:after {
+.spinners li:hover:after {
   right: 0%;
 }
 
-ul li:hover a {
+.spinners li:hover a {
    transform: rotate(-765deg);
 }
 
-ul li:nth-of-type(1):before,
-ul li:nth-of-type(1):after {
+.spinners li:nth-of-type(1):before,
+.spinners li:nth-of-type(1):after {
   background: rgb(54, 215, 183);
 }
 
-ul li:nth-of-type(2):before,
-ul li:nth-of-type(2):after {
+.spinners li:nth-of-type(2):before,
+.spinners li:nth-of-type(2):after {
   background: rgb(191, 85, 236);
 }
 
-ul li:nth-of-type(3):before,
-ul li:nth-of-type(3):after {
+.spinners li:nth-of-type(3):before,
+.spinners li:nth-of-type(3):after {
   background: #22A7F0;
 }
 
-ul li:nth-of-type(4):before,
-ul li:nth-of-type(4):after {
+.spinners li:nth-of-type(4):before,
+.spinners li:nth-of-type(4):after {
   background: rgb(247, 202, 24);
 }
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
