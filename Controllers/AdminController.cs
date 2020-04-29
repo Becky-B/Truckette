@@ -127,11 +127,13 @@ namespace Truckette.Controllers
 
                     return Json(new { data = message });
                 }
+                System.Console.WriteLine("==========================");
                 dbContext.Categories.Add(formData.Category);
                 dbContext.SaveChanges();
 
                 return RedirectToAction("AdminDash");
             }
+                System.Console.WriteLine("-------------------------------------------");
             ModelState.Values.ToList().ForEach(e => e.Errors.Where(m => m.ErrorMessage.Contains("Category")));
             return Json(new { data = message });
         }

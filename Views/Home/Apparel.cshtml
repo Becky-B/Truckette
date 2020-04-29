@@ -30,7 +30,6 @@
                 </div>
             </div>
         </header>
-        <body>
         @* body of the sales thumbnails *@
         <div class="apparelContainer">
             <div class="row">
@@ -38,14 +37,13 @@
                     <div class="apparel">
                         @foreach (Product product in Model.ListOfProducts)
                         {
-                            <div class="list-unstyled text-center">
-                                <li><img class="img-thumbnail" src="~/Images/@product.ImageUrl" alt="projuct img"></li>
+                            <ul class="list-unstyled text-center">
+                                <li><img class="img-thumbnail" src="~/@product.ImageUrl" alt="projuct img"></li>
                                 <li>@product.ProductName</li>
                                 @* <li>$@product.Price</li> *@
-                            </div>
+                            </ul>
                         }
                     </div>
                 </div>
             </div>
         </div>
-        </body>
