@@ -9,7 +9,7 @@ namespace Truckette.Models
     {
         [Key]
         public int OrderId { get; set; }
-        [Required]
+        
         public int Amount { get; set; }
         public int UserId { get; set; }
         public int ProductId { get; set; }

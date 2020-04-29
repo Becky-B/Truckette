@@ -33,7 +33,7 @@ namespace Truckette.Controllers
             return View(ouruser);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Apparel()
         {
             return View();
         }

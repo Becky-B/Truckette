@@ -27,15 +27,28 @@ namespace Truckette.Controllers
         [HttpPost("addtocart")]
         public IActionResult AddToCart(ProductsW formdata)
         {
+            // System.Console.WriteLine("==================================");
+            // System.Console.WriteLine("==================================");
+            // foreach (var i in ModelState.Values)
+            // {
+            //     foreach (var error in i.Errors)
+            //     {
+            //         System.Console.WriteLine(error.ErrorMessage);
+            //     }
+            // }
+            // System.Console.WriteLine("==================================");
+            // System.Console.WriteLine("==================================");
+            formdata.Products = new List<Product>();
             int userid = (int)HttpContext.Session.GetInt32("UserId");
             if (ModelState.IsValid)
             {   
+                formdata.Order.Amount = 32;
                 formdata.Order.UserId = userid;
                 dbContext.Orders.Add(formdata.Order);
                 dbContext.SaveChanges();
                 return RedirectToAction("Cart");               
             }
-            return RedirectToAction("ErrorPage");
+            return RedirectToAction("Cart", "Orders");
         }
 
         [HttpGet("cart")]

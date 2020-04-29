@@ -21,18 +21,18 @@
 <div class="col-lg-3 col-md-4 col-sm-6">
     <div class="product">
         <div class="product">
-            @foreach (var product in Model.Products)
+            @for (int i=0; i < Model.Products.Count; i++)
             {
+                <form asp-action="AddToCart" asp-controller="Orders" method="POST">
                 <div>
                     <ul class="list-unstyled text-center">
-                        <li><img class="img-thumbnail" src="~/Images/@product.ImageUrl" alt=""></li>
-                        <li>@product.ProductName</li>
-                        <li>$@product.Price</li>
+                        <li><img class="img-thumbnail" src="~/@Model.Products[i].ImageUrl" alt=""></li>
+                        <li>@Model.Products[i].ProductName</li>
+                        <li>$@Model.Products[i].Price</li>
                     </ul>
                 </div>
-                <form asp-action="addtocart" method="POST">
-                    <input hidden asp-for="@Model.Order.ProductId" type="number" value="@product.ProductId">
-                    <select asp-for="@Model.Order.Amount">
+                    <input hidden asp-for="Order.ProductId" type="number" value="@Model.Products[i].ProductId">
+                    <select asp-for="Order.Amount">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
