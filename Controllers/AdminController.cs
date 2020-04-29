@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,7 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Truckette.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Truckette.Controllers
 {
@@ -16,16 +20,22 @@ namespace Truckette.Controllers
 
         private MyContext dbContext;
 
-        public AdminController(MyContext context)
+        public AdminController(MyContext context, IConfiguration configuration, IHostingEnvironment environment)
         {
             dbContext = context;
+            Configuration = configuration;
+            hostingEnvironment = environment;
         }
+        public IConfiguration Configuration { get; }
+
+        private readonly IHostingEnvironment hostingEnvironment;
 
         [HttpGet("adminDash")]
         public IActionResult AdminDash(ProductsPageW searchString)
         {
             ProductsPageW vMod = new ProductsPageW();
             vMod.ListOfProducts = dbContext.Products.ToList();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
 
             if (searchString != null && searchString.FilterForm != null)
             {
@@ -44,7 +54,28 @@ namespace Truckette.Controllers
         {
             if (ModelState.IsValid)
             {
-                formData.Product.ImageUrl = formData.Product.Category + "/" + formData.Product.ImageUrl;
+                //getting category id
+                int catId = Int32.Parse(formData.CategoryName);
+                //pulling right gategory from DB
+                Category cat = dbContext.Categories.FirstOrDefault(c => c.CategoryId == catId);
+                //saving initial filename
+                var uniqueFileName = formData.Product.Image.FileName;
+                //Setting my path to start from wwwroot
+                string myPath = hostingEnvironment.WebRootPath.Substring(hostingEnvironment.WebRootPath.Length - 7);
+                //Setting path to images folder and right category folder
+                var uploads = Path.Combine(myPath, "Images", cat.Name);
+                //if there is no such folder, crate it
+                if (!Directory.Exists(uploads))
+                {
+                    Directory.CreateDirectory(uploads);
+                }
+                //finalizing path and filename
+                var filePath = Path.Combine(uploads, uniqueFileName);
+                //saving to local folder
+                formData.Product.Image.CopyTo(new FileStream(filePath, FileMode.Create));
+                //saving in db only needed part of path for example "Images\Hats\<FileName>.jpg"
+                formData.Product.ImageUrl = filePath.Substring(8);
+                formData.Product.CategoryId = catId;
                 dbContext.Products.Add(formData.Product);
                 dbContext.SaveChanges();
 
@@ -68,8 +99,8 @@ namespace Truckette.Controllers
             {
                 if (dbContext.Products.Any(b => b.ProductName == fromForm.ProductName && b.ProductId != id))
                 {
-                    ModelState.AddModelError("Name", "You cannot create a PRoduct with the same name as an existing Product.");
-                    return View("EditRito", fromForm);
+                    ModelState.AddModelError("Name", "You cannot create a Product with the same name as an existing Product.");
+                    return View("ProductDetailsPage", fromForm);
                 }
                 fromForm.ProductId = id;
                 dbContext.Update(fromForm);
@@ -81,5 +112,29 @@ namespace Truckette.Controllers
 
             return View("ProductDetailsPage", fromForm);
         }
+
+        [HttpPost("AddCategoryUrl")]
+        public IActionResult addCategory(ProductsPageW formData)
+        {
+            String message = "";
+            if (ModelState.IsValid)
+            {
+                if (dbContext.Categories.Any(b => b.Name == formData.Category.Name))
+                {
+                    ModelState.AddModelError("Category.Name", "You cannot create a Category with the same name as an existing Category.");
+
+                    ModelState.Values.ToList().ForEach(e => e.Errors.Where(m => m.ErrorMessage.Contains("Category")));
+
+                    return Json(new { data = message });
+                }
+                dbContext.Categories.Add(formData.Category);
+                dbContext.SaveChanges();
+
+                return RedirectToAction("AdminDash");
+            }
+            ModelState.Values.ToList().ForEach(e => e.Errors.Where(m => m.ErrorMessage.Contains("Category")));
+            return Json(new { data = message });
+        }
+
     }
 }

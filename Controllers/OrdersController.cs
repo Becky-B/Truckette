@@ -58,7 +58,8 @@ namespace Truckette.Controllers
             ProductsW ourguy = new ProductsW();
             ourguy.Products = dbContext.Products
                 .Include(p => p.Orders)
-                .Where(p => p.Category == "Hats")
+                .Include(p => p.Category)
+                .Where(p => p.Category.Name == "Hats")
                 .ToList();
             ourguy.User = dbContext.Users
                 .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
