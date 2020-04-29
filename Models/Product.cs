@@ -15,6 +15,10 @@ namespace Truckette.Models
         [Display(Name = "Product Name: ")]
         public string ProductName { get; set; }
 
+        
+        [DataType(DataType.Currency)]
+        public string Price { get; set; }
+
         [Required]
         [Display(Name = "Categories: ")]
         public string Category { get; set; } 

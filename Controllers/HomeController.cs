@@ -21,6 +21,8 @@ namespace Truckette.Controllers
             dbContext = context;
         }
 
+ 
+
         public IActionResult Index()
         {
             return View();
