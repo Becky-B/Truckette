@@ -80,7 +80,7 @@ namespace Truckette.Controllers
                 var userInDb = dbContext.Users.FirstOrDefault(u => u.Email == submission.LoginEmail);
                 if(userInDb.Email == "Admin@email.com")
                 {
-                    return View("Admin");
+                    return View("AdminDash");
                 }
             }
             return View("Login");
