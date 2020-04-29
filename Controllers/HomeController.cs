@@ -15,7 +15,6 @@ namespace Truckette.Controllers
     {
 
         private MyContext dbContext;
-     
         public HomeController(MyContext context)
         {
             dbContext = context;
