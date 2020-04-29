@@ -31,12 +31,22 @@ namespace Truckette.Controllers
         private readonly IHostingEnvironment hostingEnvironment;
 
         [HttpGet("adminDash")]
-        public IActionResult AdminDash(ProductsPageW searchString)
+        public IActionResult AdminDash()
         {
             ProductsPageW vMod = new ProductsPageW();
             vMod.ListOfProducts = dbContext.Products.ToList();
             vMod.ListOfCategories = dbContext.Categories.ToList();
 
+            return View("AdminDash", vMod);
+        }
+
+        [HttpPost("filterProducts")]
+        public IActionResult FilterProducts(ProductsPageW searchString)
+        {
+            ProductsPageW vMod = new ProductsPageW();
+            vMod.ListOfProducts = dbContext.Products.ToList();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
+            vMod.Product = new Product();
             if (searchString != null && searchString.FilterForm != null)
             {
                 if (!String.IsNullOrEmpty(searchString.FilterForm.ToLookFor))
@@ -49,11 +59,26 @@ namespace Truckette.Controllers
             return View("AdminDash", vMod);
         }
 
-        [HttpPost("addProduct")]
-        public IActionResult addProduct(ProductsPageW formData)
+        [HttpGet("addProductPage")]
+        public IActionResult AddProductPage()
         {
+            AddProductPageW vMod = new AddProductPageW();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
+            return View(vMod);
+        }
+
+        [HttpPost("addProduct")]
+        public IActionResult addProduct(AddProductPageW formData)
+        {            
+            AddProductPageW vMod = new AddProductPageW();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
             if (ModelState.IsValid)
             {
+                if (dbContext.Products.Any(p => p.ProductName == formData.Product.ProductName))
+                {
+                    ModelState.AddModelError("Product.ProductName", "You cannot create a Product with the same name as an existing Product.");
+                    return View("AddProductPage", vMod);
+                }
                 //getting category id
                 int catId = Int32.Parse(formData.CategoryName);
                 //pulling right gategory from DB
@@ -81,8 +106,10 @@ namespace Truckette.Controllers
 
                 return RedirectToAction("AdminDash");
             }
+            System.Console.WriteLine("================================");
             // only if there is an error
-            return View("AdminDash");
+
+            return View("AddProductPage", vMod);
         }
 
         [HttpGet("edit/{id}")]
@@ -113,29 +140,34 @@ namespace Truckette.Controllers
             return View("ProductDetailsPage", fromForm);
         }
 
-        [HttpPost("AddCategoryUrl")]
-        public IActionResult addCategory(ProductsPageW formData)
+        [HttpGet("addCategoryPage")]
+        public IActionResult AddCategoryPage()
         {
-            String message = "";
+            AddCategoryPageW vMod = new AddCategoryPageW();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
+            return View(vMod);
+        }
+
+        [HttpPost("addCategoryUrl")]
+        public IActionResult AddCategoryUrl (AddCategoryPageW formData)
+        {
+            AddCategoryPageW vMod = new AddCategoryPageW();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
             if (ModelState.IsValid)
             {
+
                 if (dbContext.Categories.Any(b => b.Name == formData.Category.Name))
                 {
                     ModelState.AddModelError("Category.Name", "You cannot create a Category with the same name as an existing Category.");
 
-                    ModelState.Values.ToList().ForEach(e => e.Errors.Where(m => m.ErrorMessage.Contains("Category")));
-
-                    return Json(new { data = message });
+                    return View("AddCategoryPage", vMod);
                 }
-                System.Console.WriteLine("==========================");
                 dbContext.Categories.Add(formData.Category);
                 dbContext.SaveChanges();
 
-                return RedirectToAction("AdminDash");
+                return RedirectToAction("AddProductPage");
             }
-                System.Console.WriteLine("-------------------------------------------");
-            ModelState.Values.ToList().ForEach(e => e.Errors.Where(m => m.ErrorMessage.Contains("Category")));
-            return Json(new { data = message });
+            return View("AddCategoryPage", vMod);
         }
 
     }
