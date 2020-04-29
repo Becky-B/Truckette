@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace Truckette.Models
 {
@@ -18,12 +19,17 @@ namespace Truckette.Models
         //One to many
         [Required]
         [Display(Name = "Categories: ")]
-        public int CategoryId { get; set; } 
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
+        
+        public Category Category { get; set; } 
         //End one to many
-        [Required]
-        [Display(Name = "Image (url): ")]
+
         public string ImageUrl { get; set; }
+
+        [Required]
+        [Display(Name = "Image File: ")]
+        [NotMapped]
+        public IFormFile Image { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -35,7 +41,6 @@ namespace Truckette.Models
         public string DistributionNumber { get; set; }
         //many to many
         public List<Order> Orders { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
