@@ -9,6 +9,9 @@ namespace Truckette.Models
     {
         public Product Product { get; set; }
         public List<Product> ListOfProducts { get; set; }
+        public List<Category> ListOfCategories { get; set; }
         public FilterForm FilterForm { get; set; }
+        public Category Category { get; set; }
+        public string CategoryName { get; set; }
     }
 }
