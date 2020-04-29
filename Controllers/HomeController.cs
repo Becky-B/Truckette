@@ -24,7 +24,13 @@ namespace Truckette.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
             return View();
+            }
+            User ouruser = dbContext.Users
+                .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+            return View(ouruser);
         }
 
         public IActionResult Privacy()

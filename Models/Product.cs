@@ -16,14 +16,11 @@ namespace Truckette.Models
         [Display(Name = "Product Name: ")]
         public string ProductName { get; set; }
 
-<<<<<<< HEAD
         
         [DataType(DataType.Currency)]
         public string Price { get; set; }
 
-=======
         //One to many
->>>>>>> origin/master
         [Required]
         [Display(Name = "Categories: ")]
         public int CategoryId { get; set; }

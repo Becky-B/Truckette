@@ -91,5 +91,13 @@ namespace Truckette.Controllers
             }
             return View("Login");
         }
+        
+        //Log Off
+        [HttpGet("logoff")]
+        public IActionResult LogOff()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
