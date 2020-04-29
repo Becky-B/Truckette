@@ -41,6 +41,9 @@ namespace Truckette.Controllers
 
                 dbContext.Add(user);
                 dbContext.SaveChanges();
+                User OurUser = dbContext.Users
+                        .FirstOrDefault(u => u.Email == user.Email); 
+                    HttpContext.Session.SetInt32("UserId", OurUser.UserId);
                 return RedirectToAction("Index", "Home");
             }
             return View("Registration");
@@ -73,6 +76,9 @@ namespace Truckette.Controllers
                     ModelState.AddModelError("LoginPassword", "Invalid Password");
                     return View("Login");
                 }
+                User OurUser = dbContext.Users
+                    .FirstOrDefault(u => u.Email == submission.LoginEmail); 
+                HttpContext.Session.SetInt32("UserId", OurUser.UserId);
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -29,8 +29,8 @@
                         <ul class="list-unstyled text-center">
                             <li><img class="img-thumbnail" src="~/Images/@p.Product.ImageUrl" alt=""></li>
                             <li>@p.Product.ProductName</li>
-                            <li>(@p.Product.Quantity left)</li>
-                            <li><a asp-action="ProductDetailsPage" asp-route-id="@p.ProductId">Detail/Edit Page</a></li>
+                            <li>Quantity: @p.Amount</li>
+                            <li><a href="removefromcart"><button type="button" class="btn btn-danger">Remove</button></a></li>
                         </ul>
                     </div>
                     }

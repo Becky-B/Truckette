@@ -25,13 +25,13 @@ namespace Truckette.Controllers
 
         // Adding to Cart    
         [HttpPost("addtocart")]
-        public IActionResult AddToCart(Order formdata)
+        public IActionResult AddToCart(ProductsW formdata)
         {
             int userid = (int)HttpContext.Session.GetInt32("UserId");
             if (ModelState.IsValid)
             {   
-                formdata.UserId = userid;
-                dbContext.Orders.Add(formdata);
+                formdata.Order.UserId = userid;
+                dbContext.Orders.Add(formdata.Order);
                 dbContext.SaveChanges();
                 return RedirectToAction("Cart");               
             }
