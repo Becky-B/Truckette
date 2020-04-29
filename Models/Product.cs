@@ -15,10 +15,12 @@ namespace Truckette.Models
         [Display(Name = "Product Name: ")]
         public string ProductName { get; set; }
 
+        //One to many
         [Required]
         [Display(Name = "Categories: ")]
-        public string Category { get; set; } 
-
+        public int CategoryId { get; set; } 
+        public Category Category { get; set; }
+        //End one to many
         [Required]
         [Display(Name = "Image (url): ")]
         public string ImageUrl { get; set; }

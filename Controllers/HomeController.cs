@@ -35,5 +35,17 @@ namespace Truckette.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet("apparel")]
+        public IActionResult Apparel()
+        {
+            ProductsPageW vMod = new ProductsPageW();
+            vMod.ListOfProducts = dbContext.Products
+                .Include(p => p.Category)
+                .Where(p => p.Category.Name == "Apparel")
+                .ToList();
+
+            return View(vMod);
+        }
     }
 }
