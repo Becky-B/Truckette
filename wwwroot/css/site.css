@@ -135,4 +135,9 @@ body {
 }
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
 
-
+.admin-product-wrapper {
+  min-height: 20rem;
+  padding: .4rem;
+  border: 1px solid paleturquoise;
+  border-radius: .4rem;
+}

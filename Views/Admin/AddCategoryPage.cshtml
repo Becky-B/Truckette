@@ -1,37 +1,70 @@
 @model AddCategoryPageW
+@{
+    ViewData["Title"] = "Add Category";
+}
 <div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <a asp-action="AdminDash" asp-controller="Admin">Back</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Truckette</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="AdminDash" asp-controller="Admin">Admin Dasboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="AddProductPage" asp-controller="Admin">Add Product</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" >Add Category</a>
+                </li>
+            </ul>
         </div>
-        <div class="col-sm">
-            <a asp-action="AddProductPage" asp-controller="Admin">Add Product</a>
-        </div>
-    </div>
+    </nav>
+
     <div class="row mt-5">
-        <div class="col-sm-4">
-            <div class="row">
-                <h2>Add a new Product</h2>
-                <form asp-action="AddCategoryUrl" id="addCategory" method="post">
-                    <div class="form-group">
-                        <span asp-validation-for="Category.Name" class="text-danger"></span>
-                        <label asp-for="Category.Name"></label>
-                        <input class="form-control" asp-for="Category.Name">
-                    </div>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Add Category</button>
-                </form>
+        <div class="col-sm">
+            <div class="container">
+                <div class="row">
+                    <h3 class="mb-0">Add a new Product</h3>
+                    <form asp-action="AddCategory" id="addCategory" method="post" class="form-inline my-2 my-lg-0 ml-3">
+                            <span asp-validation-for="Category.Name" class="text-danger"></span>
+                            <input class="form-control mr-sm-2" placeholder="Category Name" asp-for="Category.Name">
+                        <button class="btn btn-primary" type="submit">Add Category</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm">
-            <ul>
 
-            @foreach (var item in Model.ListOfCategories)
-            {
-                <li>@item.Name</li>
-            }
-            </ul>
+    <div class="row mt-5">
+        <div class="col-sm">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Cateory Name</th>
+                        <th scope="col">Products</th>
+                        @* <th scope="col">Action</th> *@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ListOfCategories)
+                    {
+                    <tr>
+                        <th scope="row">@item.CategoryId</th>
+                        <td>@item.Name</td>
+                        <td>@item.ListOfProducts.Count</td>
+                        @* <td>
+                            <a asp-action="deleteCategory" asp-route-catId="@item.CategoryId">Delete</a>
+                        </td> *@
+                    </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
+
 </div>

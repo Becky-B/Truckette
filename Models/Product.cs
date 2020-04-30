@@ -16,17 +16,20 @@ namespace Truckette.Models
         [Display(Name = "Product Name: ")]
         public string ProductName { get; set; }
 
+
+        [DataType(DataType.Currency)]
+        public string Price { get; set; }
+
         //One to many
         [Required]
         [Display(Name = "Categories: ")]
         public int CategoryId { get; set; }
-        
+
         public Category Category { get; set; } 
         //End one to many
 
         public string ImageUrl { get; set; }
 
-        [Required]
         [Display(Name = "Image File: ")]
         [NotMapped]
         public IFormFile Image { get; set; }
