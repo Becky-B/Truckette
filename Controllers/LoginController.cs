@@ -41,9 +41,19 @@ namespace Truckette.Controllers
 
                 dbContext.Add(user);
                 dbContext.SaveChanges();
+                User OurUser = dbContext.Users
+                        .FirstOrDefault(u => u.Email == user.Email); 
+                    HttpContext.Session.SetInt32("UserId", OurUser.UserId);
                 return RedirectToAction("Index", "Home");
             }
             return View("Registration");
+        }
+        
+        [HttpGet("SetSession/{pagefrom}")]
+        public ViewResult SetSession(string pagefrom)
+        {
+            HttpContext.Session.SetString("LastPage", pagefrom);
+            return View("Login");
         }
 
         [HttpGet("Login")]
@@ -73,17 +83,30 @@ namespace Truckette.Controllers
                     ModelState.AddModelError("LoginPassword", "Invalid Password");
                     return View("Login");
                 }
-                return RedirectToAction("Index", "Home");
+                User OurUser = dbContext.Users
+                    .FirstOrDefault(u => u.Email == submission.LoginEmail); 
+                HttpContext.Session.SetInt32("UserId", OurUser.UserId);
+                string page = HttpContext.Session.GetString("LastPage");
+                return RedirectToAction(page, "Home");
             }
             else
             {
                 var userInDb = dbContext.Users.FirstOrDefault(u => u.Email == submission.LoginEmail);
                 if(userInDb.Email == "Admin@email.com")
                 {
+                    
                     return View("AdminDash");
                 }
             }
             return View("Login");
+        }
+        
+        //Log Off
+        [HttpGet("logoff/{page}")]
+        public IActionResult LogOff(string page)
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction(page, "Home");
         }
     }
 }

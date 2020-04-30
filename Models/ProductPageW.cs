@@ -11,6 +11,7 @@ namespace Truckette.Models
         public List<Product> ListOfProducts { get; set; }
         public List<Category> ListOfCategories { get; set; }
         public FilterForm FilterForm { get; set; }
+        public User User { get; set; }
         public Category Category { get; set; }
     }
 }
