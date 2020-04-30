@@ -93,11 +93,16 @@ namespace Truckette.Controllers
         }
         
         //Log Off
-        [HttpGet("logoff")]
-        public IActionResult LogOff()
+        [HttpGet("logoff/{page}")]
+        public IActionResult LogOff(string page)
         {
+            if (page == "Apparel")
+            {
+                HttpContext.Session.Clear();
+                return RedirectToAction(page);
+            }
             HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(page, "Home");
         }
     }
 }

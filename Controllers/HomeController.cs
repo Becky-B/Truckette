@@ -20,6 +20,7 @@ namespace Truckette.Controllers
             dbContext = context;
         }
 
+
  
 
         public IActionResult Index()
@@ -33,10 +34,7 @@ namespace Truckette.Controllers
             return View(ouruser);
         }
 
-        public IActionResult Apparel()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -47,10 +45,27 @@ namespace Truckette.Controllers
         [HttpGet("apparel")]
         public IActionResult Apparel()
         {
+            var ouruser = dbContext.Users
+                .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
             ProductsPageW vMod = new ProductsPageW();
+            vMod.User = ouruser;
             vMod.ListOfProducts = dbContext.Products
                 .Include(p => p.Category)
                 .Where(p => p.Category.Name == "Apparel")
+                .ToList();
+
+            return View(vMod);
+        }
+        [HttpGet("hats")]
+        public IActionResult Hats()
+        {
+            var ouruser = dbContext.Users
+                .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+            ProductsPageW vMod = new ProductsPageW();
+            vMod.User = ouruser;
+            vMod.ListOfProducts = dbContext.Products
+                .Include(p => p.Category)
+                .Where(p => p.Category.Name == "Hats")
                 .ToList();
 
             return View(vMod);

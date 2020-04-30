@@ -65,18 +65,6 @@ namespace Truckette.Controllers
             return View(ourcart);
         }
 
-        [HttpGet("hats")]
-        public IActionResult Hats()
-        {
-            ProductsW ourguy = new ProductsW();
-            ourguy.Products = dbContext.Products
-                .Include(p => p.Orders)
-                .Include(p => p.Category)
-                .Where(p => p.Category.Name == "Hats")
-                .ToList();
-            ourguy.User = dbContext.Users
-                .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
-            return View(ourguy);
-        }
+        
     }
 }
