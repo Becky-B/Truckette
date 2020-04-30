@@ -1,4 +1,4 @@
-@model Truckette.Models.ProductsPageW
+@model Truckette.Models.ProductPages
 @* Truckette NavBar *@
 <div id="page-top">
             <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
@@ -33,18 +33,32 @@
         @* body of the sales thumbnails *@
         <div class="apparelContainer">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="apparel">
-                        @foreach (Product product in Model.ListOfProducts)
-                        {
-                            <ul class="list-unstyled text-center">
-                                <li><img class="img-thumbnail" src="~/@product.ImageUrl" alt="projuct img"></li>
-                                <li>@product.ProductName</li>
-                                @* <li>$@product.Price</li> *@
-                            </ul>
-                        }
-                    </div>
+                @foreach (Product product in Model.ListOfProducts)
+                {
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <ul class="list-unstyled text-center">
+                        <a class="portfolio-box" href="Product">
+                        <li><img class="img-thumbnail img-fluid" src="~/@product.ImageUrl" alt="projuct img"></li>
+                        </a>
+                        <li>@product.ProductName</li>
+                        <li>@product.Description</li>
+                        @* <li>$@product.Price</li> *@
+                    </ul>
                 </div>
+                }   
             </div>
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
         
