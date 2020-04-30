@@ -18,6 +18,7 @@ namespace Truckette.Models
 
         
         [DataType(DataType.Currency)]
+        [Range(0, double.MaxValue)]
         public string Price { get; set; }
 
         //One to many
