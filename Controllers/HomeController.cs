@@ -47,7 +47,7 @@ namespace Truckette.Controllers
         {
             var ouruser = dbContext.Users
                 .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
-            ProductsPageW vMod = new ProductsPageW();
+            ProductPages vMod = new ProductPages();
             vMod.User = ouruser;
             vMod.ListOfProducts = dbContext.Products
                 .Include(p => p.Category)
@@ -69,6 +69,14 @@ namespace Truckette.Controllers
                 .ToList();
 
             return View(vMod);
+        }
+        
+        [HttpGet("Product/{ProductId}")]
+        public IActionResult ViewProduct()
+        {
+            // Product ourguy = dbContext.Products
+            //     .FirstOrDefault(p => p.ProductId == )
+            return View("Product");
         }
     }
 }
