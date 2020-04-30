@@ -42,7 +42,7 @@ namespace Truckette.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet("apparel")]
+        [HttpGet("Apparel")]
         public IActionResult Apparel()
         {
             var ouruser = dbContext.Users
@@ -56,7 +56,22 @@ namespace Truckette.Controllers
 
             return View(vMod);
         }
-        [HttpGet("hats")]
+        [HttpGet("Koozies")]
+        public IActionResult Koozies()
+        {
+            var ouruser = dbContext.Users
+                .FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+            ProductsPageW vMod = new ProductsPageW();
+            vMod.User = ouruser;
+            vMod.ListOfProducts = dbContext.Products
+                .Include(p => p.Category)
+                .Where(p => p.Category.Name == "Koozies")
+                .ToList();
+
+            return View(vMod);
+        }
+
+        [HttpGet("Hats")]
         public IActionResult Hats()
         {
             var ouruser = dbContext.Users

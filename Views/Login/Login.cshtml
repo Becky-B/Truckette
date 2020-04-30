@@ -1,34 +1,27 @@
 @model LoginUser
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Login</title>
-</head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-        <div class="container">
-            <img src="wwwroot/assets/img/portfolio/thumbnails/1.jpg">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Truckette Hat CO.</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ol class="navbar-nav ml-auto my-2 my-lg-0">                
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger">Welcome Back!</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#portfolio">Products</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#contact">Contact<a></li>
-                    </ol>
-            </div>
-        </div>
-    </nav>
+                <div class="container">
+                    <img class="navbar-logo mr-2" src="~/assets/img/portfolio/thumbnails/Logo.jpg">
+                    <a class="navbar-brand js-scroll-trigger" asp-action="Index" asp-controller="Home">Truckette Hat CO.</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ol class="navbar-nav ml-auto my-2 my-lg-0">
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger">Welcome back!</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#portfolio">Products</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#contact">Contact<a></li>
+                        </ol>
+                    </div>
+                </div>
+            </nav>
         @* banner head *@
     <header class="ApparelBanner">
-        <div class="container h-100">
+        <div class="container">
         <div class="row h-100 align-items-center justify-content-center text-center">
-        <div class="col-lg-10 align-center">
+        <div class="col-lg-6 mt-5 align-center">
             <h1 class="text-uppercase text-white font-weight-bold">Please Sign in</h1>
             <form asp-action="LoginUser" asp-controller="Login" method="post" class="form-signin">
-                <label asp-for="LoginEmail" class="sr-only">Email Address</label>
+                <label asp-for="LoginEmail" class="sr-only">Email Address</label> 
                 <input type="email" asp-for="LoginEmail" class="form-control" placeholder="Email Address" required autofocus>
                 <label asp-for="LoginPassword" class="sr-only">Password</label>
                 <input type="password" asp-for="LoginPassword" class="form-control" placeholder="Password" required autofocus>
@@ -39,9 +32,10 @@
                     </label>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
             </form>                   
-    </div>
     <div class="register text-center">
-        <a href="registration">Register New User</a>
+        <a asp-action="Registration">Register New User</a>
+    </div>
+        
 
 
 </body>

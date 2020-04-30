@@ -48,6 +48,13 @@ namespace Truckette.Controllers
             }
             return View("Registration");
         }
+        
+        [HttpGet("SetSession/{pagefrom}")]
+        public ViewResult SetSession(string pagefrom)
+        {
+            HttpContext.Session.SetString("LastPage", pagefrom);
+            return View("Login");
+        }
 
         [HttpGet("Login")]
         public ViewResult Login()
@@ -79,13 +86,15 @@ namespace Truckette.Controllers
                 User OurUser = dbContext.Users
                     .FirstOrDefault(u => u.Email == submission.LoginEmail); 
                 HttpContext.Session.SetInt32("UserId", OurUser.UserId);
-                return RedirectToAction("Index", "Home");
+                string page = HttpContext.Session.GetString("LastPage");
+                return RedirectToAction(page, "Home");
             }
             else
             {
                 var userInDb = dbContext.Users.FirstOrDefault(u => u.Email == submission.LoginEmail);
                 if(userInDb.Email == "Admin@email.com")
                 {
+                    
                     return View("AdminDash");
                 }
             }
@@ -96,11 +105,6 @@ namespace Truckette.Controllers
         [HttpGet("logoff/{page}")]
         public IActionResult LogOff(string page)
         {
-            if (page == "Apparel")
-            {
-                HttpContext.Session.Clear();
-                return RedirectToAction(page);
-            }
             HttpContext.Session.Clear();
             return RedirectToAction(page, "Home");
         }
