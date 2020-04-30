@@ -17,89 +17,29 @@
         @* banner head *@
     <header class="ApparelBanner">
     <div class="container">
-        <div class="row h-100 align-items-center justify-content-center text-center">
-            <div class="col-lg-6 mt-5 align-center">
-                <h1 class="text-uppercase text-white font-weight-bold">Register Here!</h1>
-            </div>
-            <form asp-action="RegisterUser" asp-controller="Login" method="post">
-                <div class="form-row">
-                    <div class="col-md-6 form-group">
-                        <span asp-validation-for="FirstName"></span>
-                        <label asp-for="FirstName">First Name </label>
-                        <input class="form-control" type="text" asp-for="FirstName">
-                    </div>
-                    <div class="col-md-6 form-group">
+        <div class="col-lg-6 mt-5 align-center mt-5">
+        </div>
+        <form asp-action="RegisterUser" asp-controller="Login" method="post">
+            <div class="form-row mt-6">
+                <div class="col-lg-4 form-group mt-5">
+                    <span asp-validation-for="FirstName"></span>
+                    <label asp-for="FirstName">First Name </label>
+                    <input class="form-control" type="text" asp-for="FirstName">
                     <span asp-validation-for="LastName"></span>
                     <label asp-for="LastName">Last Name </label>
                     <input class="form-control" type="text" asp-for="LastName">
-                    </div>
-                </div>
-            <div class="form-row">
-                <div class="form-group col-md-6 align-center">
                     <span asp-validation-for="Email"></span>
                     <label asp-for="Email">Email </label>
                     <input class="form-control" type="email" asp-for="Email">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
                     <span asp-validation-for="Password"></span>
                     <label asp-for="Password">Password </label>
                     <input class="form-control" type="password" asp-for="Password">
-                </div>
-                <div class="form-group col-md-6">
                     <span asp-validation-for="Confirm"></span>
                     <label asp-for="Confirm">Confirm Password </label>
                     <input class="form-control" type="password" asp-for="Confirm">
+                    <button type="submit" class="btn btn-primary form-control">Sign Up Now</button>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Sign Up Now</button>
-                </div>
-            </div>
-            </form>
-        </div>
+        </form>
     </div>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-sm-6 text-center">
-                <h1>Register here</h1>
-            </div>
-            <div class="col-sm-6 text-center">
-                <h3><a asp-action="Login">Login</a></h3>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-    </div>
