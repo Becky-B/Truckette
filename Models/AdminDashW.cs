@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Truckette.Models
 {
-    public class ProductsPageW
+    public class AdminDashW
     {
         public Product Product { get; set; }
         public List<Product> ListOfProducts { get; set; }

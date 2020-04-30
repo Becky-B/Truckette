@@ -36,7 +36,7 @@ namespace Truckette.Controllers
             if (HttpContext.Session.GetInt32("Admin") == 1411)
             {
 
-            ProductsPageW vMod = new ProductsPageW();
+            AdminDashW vMod = new AdminDashW();
             vMod.ListOfProducts = dbContext.Products.ToList();
             vMod.ListOfCategories = dbContext.Categories.ToList();
 
@@ -47,9 +47,9 @@ namespace Truckette.Controllers
         }
 
         [HttpPost("filterProducts")]
-        public IActionResult FilterProducts(ProductsPageW searchString)
+        public IActionResult FilterProducts(AdminDashW searchString)
         {
-            ProductsPageW vMod = new ProductsPageW();
+            AdminDashW vMod = new AdminDashW();
             vMod.ListOfProducts = dbContext.Products.ToList();
             vMod.ListOfCategories = dbContext.Categories.ToList();
             vMod.Product = new Product();
@@ -87,25 +87,36 @@ namespace Truckette.Controllers
                 }
                 //getting category id
                 int catId = Int32.Parse(formData.CategoryName);
-                //pulling right gategory from DB
-                Category cat = dbContext.Categories.FirstOrDefault(c => c.CategoryId == catId);
-                //saving initial filename
-                var uniqueFileName = formData.Product.Image.FileName;
-                //Setting my path to start from wwwroot
-                string myPath = hostingEnvironment.WebRootPath.Substring(hostingEnvironment.WebRootPath.Length - 7);
-                //Setting path to images folder and right category folder
-                var uploads = Path.Combine(myPath, "Images", cat.Name);
-                //if there is no such folder, crate it
-                if (!Directory.Exists(uploads))
+                if(formData.Product.Image != null)
                 {
-                    Directory.CreateDirectory(uploads);
+                    //pulling right gategory from DB
+                    Category cat = dbContext.Categories.FirstOrDefault(c => c.CategoryId == catId);
+                    //saving initial filename
+                    var uniqueFileName = formData.Product.Image.FileName;
+                    //Setting my path to start from wwwroot
+                    string myPath = hostingEnvironment.WebRootPath.Substring(hostingEnvironment.WebRootPath.Length - 7);
+                    //Setting path to images folder and right category folder
+                    var uploads = Path.Combine(myPath, "Images", cat.Name);
+                    //if there is no such folder, crate it
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+                    //finalizing path and filename
+                    var filePath = Path.Combine(uploads, uniqueFileName);
+                    //saving to local folder and creatin a stream
+                    var stream = new FileStream(filePath, FileMode.Create);
+                    formData.Product.Image.CopyTo(stream);
+                    //saving in db only needed part of path for example "Images\Hats\<FileName>.jpg"
+                    formData.Product.ImageUrl = filePath.Substring(8);
+                    //Closing stream to not to have an error with FileOI system
+                    stream.Close();
+                } 
+                else
+                {
+                    ModelState.AddModelError("Product.Image", "Image cannot be empty");
+                    return View("AddProductPage", vMod);
                 }
-                //finalizing path and filename
-                var filePath = Path.Combine(uploads, uniqueFileName);
-                //saving to local folder
-                formData.Product.Image.CopyTo(new FileStream(filePath, FileMode.Create));
-                //saving in db only needed part of path for example "Images\Hats\<FileName>.jpg"
-                formData.Product.ImageUrl = filePath.Substring(8);
                 formData.Product.CategoryId = catId;
                 dbContext.Products.Add(formData.Product);
                 dbContext.SaveChanges();
@@ -121,44 +132,100 @@ namespace Truckette.Controllers
         [HttpGet("edit/{id}")]
         public IActionResult ProductDetailsPage(int id)
         {
-            Product vMod = dbContext.Products.FirstOrDefault(p => p.ProductId == id);
+            AddProductPageW vMod = new AddProductPageW();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
+            vMod.Product = dbContext.Products.FirstOrDefault(p => p.ProductId == id);
             return View(vMod);
         }
 
         [HttpPost("editingProduct/{id}")]
-        public IActionResult EditProduct(int id, Product fromForm)
+        public IActionResult EditProduct(int id, AddProductPageW fromForm)
         {
+            System.Console.WriteLine("============================");
+            System.Console.WriteLine(id);
+            System.Console.WriteLine("============================");
+            int catId = fromForm.Product.CategoryId;
             if (ModelState.IsValid)
             {
-                if (dbContext.Products.Any(b => b.ProductName == fromForm.ProductName && b.ProductId != id))
+                if (dbContext.Products.Any(b => b.ProductName == fromForm.Product.ProductName && b.ProductId != id))
                 {
                     ModelState.AddModelError("Name", "You cannot create a Product with the same name as an existing Product.");
                     return View("ProductDetailsPage", fromForm);
                 }
-                fromForm.ProductId = id;
-                dbContext.Update(fromForm);
-                dbContext.Entry(fromForm).Property("CreatedAt").IsModified = false;
+
+                if(fromForm.Product.Image != null)
+                {
+                    //pulling right gategory from DB
+                    Category cat = dbContext.Categories.FirstOrDefault(c => c.CategoryId == catId);
+                    //saving initial filename
+                    var uniqueFileName = fromForm.Product.Image.FileName;
+                    //Setting my path to start from wwwroot
+                    string myPath = hostingEnvironment.WebRootPath.Substring(hostingEnvironment.WebRootPath.Length - 7);
+                    //Setting path to images folder and right category folder
+                    var uploads = Path.Combine(myPath, "Images", cat.Name);
+                    //if there is no such folder, crate it
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+                    //finalizing path and filename
+                    var filePath = Path.Combine(uploads, uniqueFileName);
+                    //saving to local folder and creatin a stream
+                    var stream = new FileStream(filePath, FileMode.Create);
+                    fromForm.Product.Image.CopyTo(stream);
+                    //saving in db only needed part of path for example "Images\Hats\<FileName>.jpg"
+                    fromForm.Product.ImageUrl = filePath.Substring(8);
+                    //Closing stream to not to have an error with FileOI system
+                    stream.Close();
+                } 
+                if(fromForm.Product.Image == null)
+                {
+                    dbContext.Entry(fromForm.Product).Property("ImageUrl").IsModified = false;
+
+                }
+
+
+                Product toUpdate = dbContext.Products.FirstOrDefault(p => p.ProductId == id);
+                toUpdate.CategoryId = fromForm.Product.CategoryId;
+                toUpdate.ProductName = fromForm.Product.ProductName;
+                toUpdate.Description = fromForm.Product.Description;
+                toUpdate.Quantity = fromForm.Product.Quantity;
+                toUpdate.ProductId = id;
+                if(fromForm.Product.Image != null) {
+                    toUpdate.ImageUrl = fromForm.Product.ImageUrl;
+                }
+                // fromForm.Product.ProductId = id;
+                // dbContext.Products.Update(fromForm.Product);
+                // dbContext.Entry(fromForm.Product).Property("CreatedAt").IsModified = false;
+                dbContext.Products.Update(toUpdate);
                 dbContext.SaveChanges();
 
-                return RedirectToAction("AdminDash");
+                return RedirectToAction("AdminDash", fromForm);
             }
 
-            return View("ProductDetailsPage", fromForm);
+            AddProductPageW vMod = new AddProductPageW();
+            vMod.ListOfCategories = dbContext.Categories.ToList();
+            vMod.Product = dbContext.Products.FirstOrDefault(p => p.ProductId == id);
+            return View("ProductDetailsPage", vMod);
         }
 
         [HttpGet("addCategoryPage")]
         public IActionResult AddCategoryPage()
         {
             AddCategoryPageW vMod = new AddCategoryPageW();
-            vMod.ListOfCategories = dbContext.Categories.ToList();
+            vMod.ListOfCategories = dbContext.Categories
+                .Include(c => c.ListOfProducts)
+                .ToList();
             return View(vMod);
         }
 
-        [HttpPost("addCategoryUrl")]
-        public IActionResult AddCategoryUrl (AddCategoryPageW formData)
+        [HttpPost("addCategory")]
+        public IActionResult AddCategory (AddCategoryPageW formData)
         {
             AddCategoryPageW vMod = new AddCategoryPageW();
-            vMod.ListOfCategories = dbContext.Categories.ToList();
+            vMod.ListOfCategories = dbContext.Categories
+                .Include(c => c.ListOfProducts)
+                .ToList();
             if (ModelState.IsValid)
             {
 
@@ -175,6 +242,16 @@ namespace Truckette.Controllers
             }
             return View("AddCategoryPage", vMod);
         }
+
+        [HttpGet("deleteCategory/{catId}")]
+        public IActionResult DeleteCategory (int catId)
+        {
+            Category toBeDeleted = dbContext.Categories.FirstOrDefault(c => c.CategoryId == catId);
+            dbContext.Categories.Remove(toBeDeleted);
+            dbContext.SaveChanges();
+            return RedirectToAction("AddCategoryPage");
+        }
+
 
     }
 }
