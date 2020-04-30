@@ -86,17 +86,19 @@ namespace Truckette.Controllers
                 User OurUser = dbContext.Users
                     .FirstOrDefault(u => u.Email == submission.LoginEmail); 
                 HttpContext.Session.SetInt32("UserId", OurUser.UserId);
+                
+                if(submission.LoginEmail == "admin@email.com")
+                {
+                    HttpContext.Session.SetInt32("Admin", 1411);
+                    return RedirectToAction("AdminDash", "Admin");
+                }
+
                 string page = HttpContext.Session.GetString("LastPage");
                 return RedirectToAction(page, "Home");
             }
             else
             {
                 var userInDb = dbContext.Users.FirstOrDefault(u => u.Email == submission.LoginEmail);
-                if(userInDb.Email == "Admin@email.com")
-                {
-                    
-                    return View("AdminDash");
-                }
             }
             return View("Login");
         }

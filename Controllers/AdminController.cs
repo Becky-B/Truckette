@@ -33,11 +33,17 @@ namespace Truckette.Controllers
         [HttpGet("adminDash")]
         public IActionResult AdminDash()
         {
+            if (HttpContext.Session.GetInt32("Admin") == 1411)
+            {
+
             ProductsPageW vMod = new ProductsPageW();
             vMod.ListOfProducts = dbContext.Products.ToList();
             vMod.ListOfCategories = dbContext.Categories.ToList();
 
             return View("AdminDash", vMod);
+            }
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost("filterProducts")]
