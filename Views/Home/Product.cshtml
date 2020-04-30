@@ -1,0 +1,66 @@
+@model List<Product>
+@* Nav Bar *@
+<div id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+        <div class="container">
+            <img src="wwwroot/assets/img/portfolio/thumbnails/1.jpg">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Truckette Hat CO.</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ol class="navbar-nav ml-auto my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Service</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Products</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                </ol>
+            </div>
+        </div>
+    </nav>
+</div>
+@* Image chain *@
+<div class="row">
+
+    <div class="imgChain">
+        <div class="col-sm-4">
+            <img src="../Images/Lifestyle/LS_33.jpg" alt="Lifestyle image" width="300" Height="300">
+        </div>
+        <div class="col-sm-4">
+            <img src="../Images/Lifestyle/LS_19.jpg" alt="Lifestyle image" width="300" Height="300">
+        </div>
+        <div class="col-sm-4">
+            <img src="../Images/Lifestyle/LS_38.jpg" alt="Lifestyle image" width="300" Height="300">
+        </div>
+        <div class="col-sm-4">
+            <img src="../Images/Lifestyle/LS_49.jpg" alt="Lifestyle image" width="300" Height="300">
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="card mt-4">
+        @foreach (Product product in Model)
+        {
+            <img class="card-img-top img-fluid" src="~/@product.ImageUrl" alt="">
+            <div class="card-body">
+            <h3 class="card-title">@product.ProductName</h3>
+            @* <h4>$@product.Price</h4> *@
+            <p class="card-text">@product.Description</p>
+            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                4.0 stars
+            </div>
+        }
+        </div>
+    @* <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            Product Reviews
+        </div>
+        <div class="card-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <a href="#" class="btn btn-success">Leave a Review</a>
+        </div>
+    </div> *@

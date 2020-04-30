@@ -1,17 +1,26 @@
-﻿@{
+﻿@model User
+@{
     ViewData["Title"] = "Home Page";
 }
     <div id="page-top">
             <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
                 <div class="container">
-                    <img src="wwwroot/assets/img/portfolio/thumbnails/1.jpg">
+                    <img class="navbar-logo mr-2" src="~/assets/img/portfolio/thumbnails/Logo.jpg">
                     <a class="navbar-brand js-scroll-trigger" href="#page-top">Truckette Hat CO.</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ol class="navbar-nav ml-auto my-2 my-lg-0">
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Service</a></li>
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Products</a></li>
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                            @if (@Model == null)
+                            {
+                                <li class="nav-item"><a class="nav-link js-scroll-trigger" asp-action="SetSession" asp-controller="Login" asp-route-pagefrom="Index">Login</a></li>
+                                <li class="nav-item"><a class="nav-link js-scroll-trigger">Welcome, Guest</a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item"><a class="nav-link js-scroll-trigger">Welcome, @Model.FirstName</a></li>
+                                <li class="nav-item"><a class="nav-link js-scroll-trigger" asp-action="Logoff" asp-controller="Login" asp-route-page="Index">Logoff</a></li>
+                            }
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#portfolio">Products</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#contact">Contact<a></li>
                         </ol>
                     </div>
                 </div>
@@ -21,12 +30,11 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-10 align-self-end">
-                        <h1 class="text-uppercase text-white font-weight-bold">Trucker Hats for Messy Buns</h1>
-
+                        <h1 class="text-uppercase text-white font-weight-bold text-center">Trucker Hats for Messy Buns</h1>
                         <hr class="divider my-4" />
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 font-weight-light mb-5">
+                        <p class="text-white-75 font-weight-light mb-5 text-center">
                             Plenty of beers and backyard BBQs later a friend said, "What about 'Truckette'?!?" and we had a winner. A big winner.  She also had to teach herself how to sew (again, from 8th grade home ec class) and then find the perfect lace, pick out colors, find hat suppliers, go to trade shows, listen to countless books on tape about business, learn how to cut vinyl and print and heat press art and then there was figuring out where to store it all! No lie, Truckette Hat Co has been run out of a storage unit for almost a year! Seriously...Stacie sits in a storage unit and cuts, sews, prints, boxes and ships Truckettes so that every chica in the world can snag a Truckette. The product you see today has been perfected through these past few years and we couldn't be more stoked.</p>
                         <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
                     </div>
@@ -88,7 +96,7 @@
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/HatsCat.jpg">
+                        <a class="portfolio-box" href="hats">
                         <img class="img-fluid" src="assets/img/portfolio/thumbnails/HatsCat.jpg" alt=""/>
                             <div class="portfolio-box-caption">
                                 <div class="project-category text-white-50">Category</div>
@@ -97,7 +105,7 @@
                         >
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/apparel2.jpg"
+                        <a class="portfolio-box" href="apparel"
                             ><img class="img-fluid" src="assets/img/portfolio/thumbnails/apparel2.jpg" alt="" />
                             <div class="portfolio-box-caption">
                                 <div class="project-category text-white-50">Category</div>
@@ -106,13 +114,12 @@
                         >
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/KooziesCat.jpg"
+                        <a class="portfolio-box" asp-action="Koozies" asp-controller="Home"
                             ><img class="img-fluid" src="assets/img/portfolio/thumbnails/KooziesCat.jpg" alt="" />
                             <div class="portfolio-box-caption">
                                 <div class="project-category text-white-50">Category</div>
                                 <div class="project-name">Koozies</div>
-                            </div></a
-                        >
+                            </div></a>
                     
                     </div>
                 </div>

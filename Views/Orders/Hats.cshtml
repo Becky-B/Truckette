@@ -1,0 +1,55 @@
+@model ProductsW
+@{
+    ViewData["Title"] = "Hats";
+}
+<div class="container">
+     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+                <div class="container">
+                    <img src="wwwroot/assets/img/portfolio/thumbnails/1.jpg">
+                    <a class="navbar-brand js-scroll-trigger" href="#page-top">Truckette Hat CO.</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ol class="navbar-nav ml-auto my-2 my-lg-0">
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                            @if (@Model == null)
+                            {
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="login">Login</a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logoff">Logoff</a></li>
+                            }
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Products</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact<a></li>
+                        </ol>
+                    </div>
+                </div>
+            </nav>
+</div>
+<div class="col-lg-3 col-md-4 col-sm-6">
+    <div class="product">
+        <div class="product">
+            @for (int i=0; i < Model.Products.Count; i++)
+            {
+                <form asp-action="AddToCart" asp-controller="Orders" method="POST">
+                <div>
+                    <ul class="list-unstyled text-center">
+                        <li><img class="img-thumbnail" src="~/@Model.Products[i].ImageUrl" alt=""></li>
+                        <li>@Model.Products[i].ProductName</li>
+                        <li>$@Model.Products[i].Price</li>
+                    </ul>
+                </div>
+                    <input hidden asp-for="Order.ProductId" type="number" value="@Model.Products[i].ProductId">
+                    <select asp-for="Order.Amount">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="submit" class="btn btn-secondary">Add to Cart</button>
+                </form>
+                    
+            }
+        </div>
+    </div>
+</div>
